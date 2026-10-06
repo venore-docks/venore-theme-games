@@ -1,0 +1,37 @@
+name: CI
+
+# O tema não roda sozinho: o @venore/theme-sdk é alias de tsconfig do host. A CI faz o que uma
+# instância faz — baixa o venore-docks (main), instala ESTE checkout como @venore/theme-games e roda
+# o gate de tema do host (registro, tokens, contraste, orçamento, harness SSR).
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: theme-games
+      - uses: actions/checkout@v4
+        with:
+          repository: venore-docks/venore-docks
+          ref: main
+          path: venore-docks
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: venore-docks/package-lock.json
+      - name: Instala o host
+        working-directory: venore-docks
+        run: npm ci
+      - name: Instala este tema no host
+        working-directory: venore-docks
+        run: npm install --no-audit --no-fund ../theme-games
+      - name: Gate de tema (sem navegador)
+        working-directory: venore-docks
+        env:
+          VENORE_THEME_KEYS: games
+        run: npm run theme:check -- --theme games --no-browser

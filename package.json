@@ -1,0 +1,26 @@
+{
+  "name": "@venore/theme-games",
+  "version": "0.1.0",
+  "description": "Games — tema esportivo mobile-first do Venore Docks (contrato 8): navegação inferior tipo app no celular, tipografia forte, alto contraste. Feito pro plugin @venore/plugin-games, funciona em qualquer site.",
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "venoreTheme": {
+    "contract": "8.0.0",
+    "key": "games"
+  },
+  "exports": {
+    "./theme": "./theme.ts",
+    "./manifest": "./manifest.ts",
+    "./theme.css": "./theme.css",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "lucide-react": ">=0.400",
+    "next": ">=16",
+    "react": ">=19",
+    "react-dom": ">=19"
+  }
+}
